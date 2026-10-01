@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-Hans"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F4A3F"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="病历册">
+<title>病历册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F1F4EF;--card:#FBFCFA;--ink:#1D2622;--mut:#66746C;--line:#D3DBD1;--pine:#1F4A3F;--onp:#fff;--seal:#B8432F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141A17;--card:#1C2420;--ink:#E6ECE8;--mut:#93A39A;--line:#2E3A34;--pine:#5FA38C;--onp:#10201A;--seal:#E0715C}}
+:root[data-theme="dark"]{--bg:#141A17;--card:#1C2420;--ink:#E6ECE8;--mut:#93A39A;--line:#2E3A34;--pine:#5FA38C;--onp:#10201A;--seal:#E0715C}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:720px;margin:0 auto;padding:18px 16px 60px}
+h1,h2{font-family:"Noto Serif SC","Songti SC",SimSun,serif;margin:0}
+h1{font-size:28px;color:var(--pine)}h2{font-size:22px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+button{font:inherit;cursor:pointer;border:1px solid var(--pine);background:transparent;color:var(--pine);padding:8px 14px;border-radius:8px}
+button.p{background:var(--pine);color:var(--onp)}button.d{border-color:var(--seal);color:var(--seal)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+label{display:block;margin:0 0 12px;color:var(--mut);font-size:14px}label>*{margin-top:4px;color:var(--ink)}
+.q{font-size:17px;padding:13px 14px;margin-bottom:6px}
+.yh{margin:18px 0 6px;color:var(--pine);font-family:"Noto Serif SC",serif;font-size:18px}
+.row{display:flex;width:100%;justify-content:space-between;align-items:center;text-align:left;margin-top:8px;padding:12px 14px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px}
+.row b{font-size:18px;font-weight:600}.row small,.mut{color:var(--mut)}
+.row span+span{margin-left:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:4px 10px;margin:0}.kv dt{color:var(--mut)}.kv dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.tl{border-left:2px solid var(--line);margin-left:6px;padding-left:16px}
+.v{position:relative}.v::before{content:"";position:absolute;left:-24px;top:20px;width:10px;height:10px;border-radius:50%;background:var(--pine)}
+.tag{display:inline-block;padding:0 9px;border-radius:6px;border:1px solid var(--pine);color:var(--pine);font-size:14px;margin-left:8px}
+.tag.c{border-color:var(--seal);color:var(--seal)}
+.ph{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ph div{position:relative}.ph img{width:88px;height:88px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block;cursor:zoom-in}
+.ph button{position:absolute;top:2px;right:2px;padding:0 7px;background:var(--card);border-color:var(--seal);color:var(--seal);border-radius:6px;line-height:1.4}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;z-index:9}
+#ov img{max-width:96vw;max-height:92vh}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;z-index:10}
+.lock{max-width:340px;margin:18vh auto 0;text-align:center}.lock input{text-align:center;font-size:22px;margin:16px 0}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:260px;margin:0 auto}.pad button{font-size:24px;padding:14px 0}.dots{display:flex;justify-content:center;gap:14px;margin:18px 0}.dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--pine)}.dots i.on{background:var(--pine)}
+.sec{margin-bottom:12px}.lb{display:flex;justify-content:space-between;align-items:center;color:var(--mut);font-size:14px;margin-bottom:4px}.lb button{padding:0 8px;font-size:13px;border-color:var(--line);color:var(--mut)}.chips{margin:4px 0 6px}.chips small{color:var(--mut);margin-right:6px}.chip{padding:3px 10px;margin:3px 4px 3px 0;font-size:14px;border-color:var(--line);color:var(--ink)}.chip.on{background:var(--pine);color:var(--onp);border-color:var(--pine)}
+@media print{:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#fff;--card:#fff;--ink:#000;--mut:#444;--line:#bbb;--pine:#1F4A3F;--seal:#B8432F}
+.top,.acts,.lb button,#toast,.noprint{display:none!important}.card{break-inside:avoid;border-color:#bbb}.ph img{width:170px;height:170px}main{max-width:none;padding:0}}
+.fu{color:var(--seal);font-weight:600;margin:8px 0 0}
+</style></head>
+<body><main id="a"></main>
+<script>
+const A=document.getElementById('a'),$=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+const toast=(m,ms=2600)=>{const t=document.createElement('div');t.id='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),ms)};
+let db,P=[],V=[],S={v:'list',q:''},ok=false;
+const open=()=>new Promise((res,rej)=>{const r=indexedDB.open('clinic',1);r.onupgradeneeded=()=>{r.result.createObjectStore('patients',{keyPath:'id'});r.result.createObjectStore('visits',{keyPath:'id'})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+const tx=(s,m,f)=>new Promise((res,rej)=>{const t=db.transaction(s,m),q=f(t.objectStore(s));t.oncomplete=()=>res(q&&q.result);t.onerror=()=>rej(t.error)});
+const all=s=>tx(s,'readonly',o=>o.getAll()),put=(s,v)=>tx(s,'readwrite',o=>o.put(v)),del=(s,k)=>tx(s,'readwrite',o=>o.delete(k));
+const load=async()=>{P=await all('patients');V=await all('visits')};
+const hash=async s=>{try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('bc'+s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return 'p'+btoa(unescape(encodeURIComponent(s)))}};
+const PF=[['gender','性别'],['birth','出生'],['occ','职业'],['phone','电话'],['ic','身份证 / IC'],['addr','地址'],['memo','备注']];
+const K=[['cc','主诉'],['wang','舌诊'],['pulse','脉象'],['appetite','食欲'],['sweat','出汗'],['cold','发冷 / 怕冷'],['stool','大便'],['urine','小便'],['sleep','睡眠'],['bloat','腹胀（肚子胀气）'],['menses','月经'],['wen','闻诊'],['ask','问诊'],['dx','诊断辨证'],['rx','处方'],['note','医生备注']];
+const yr=p=>(p.birth||'').match(/\d{4}/)?.[0]||'';
+const go=(v,o={})=>{S={...S,v,...o};draw();scrollTo(0,0)};
+const get=()=>Object.fromEntries([...A.querySelectorAll('[name]')].map(e=>[e.name,e.value]));
+const F=(l,n,v='',ta,ex='')=>`<label>${l}${ta?`<textarea name="${n}" rows="3">${esc(v)}</textarea>`:`<input name="${n}" value="${esc(v)}" ${ex}>`}</label>`;
+const Sel=(l,n,o,v)=>`<label>${l}<select name="${n}">${o.map(x=>`<option${x==v?' selected':''}>${x}</option>`).join('')}</select></label>`;
+const vs=pid=>V.filter(v=>v.pid===pid).sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts);
+const hay=p=>[p.name,...PF.map(f=>p[f[0]]),yr(p),...V.filter(v=>v.pid===p.id).flatMap(v=>[v.date,v.type,...K.map(k=>v[k[0]])])].join('\n').toLowerCase();
+const cmp=(a,b)=>a.name.localeCompare(b.name,'zh-u-co-pinyin');
+
+function rows(){
+ const q=S.q.trim().toLowerCase(),r=P.filter(p=>!q||hay(p).includes(q)).sort(cmp);
+ if(!P.length)return '<p class="mut">还没有病人。点右上角「新增病人」开始。</p>';
+ if(!r.length)return '<p class="mut">没有符合的病人。可以试试姓名、电话、出生年份或病历里的文字。</p>';
+ const row=p=>{const v=vs(p.id);return `<button class="row" data-act="open" data-id="${p.id}"><span><b>${esc(p.name)}</b> <small>${esc(p.gender||'')}</small><span class="mut">${yr(p)?yr(p)+' 年生':''}</span></span><small>${v.length?'最近 '+v[0].date+'（'+v.length+' 次）':'未有就诊'}</small></button>`};
+ return (/^\d{4}$/.test(q)?`<div class="yh">${q} 年出生，共 ${r.length} 人</div>`:'')+r.map(row).join('');
+}
+const SLOT=30,HRS=d=>{const w=new Date(d+'T00:00').getDay();return w==1||w==2?null:w==0?[[540,720]]:w==6?[[540,1020]]:[[540,720],[840,1020]]};
+const ymd=t=>t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
+const addDays=(d,n)=>{const t=new Date(d+'T00:00');t.setDate(t.getDate()+n);return ymd(t)};
+const hm=m=>String(m/60|0).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const fuTxt=a=>{const d=new Date(a.d+'T00:00');return (d.getMonth()+1)+'月'+d.getDate()+'日 星期'+'日一二三四五六'[d.getDay()]+' '+a.t};
+const appts=()=>P.flatMap(p=>{const z=vs(p.id)[0];return z&&z.fu?[{pid:p.id,name:p.name,...z.fu}]:[]});
+const nextSlot=(from,pid)=>{const tk=appts().filter(a=>a.pid!==pid);let d=from;for(let i=0;i<200;i++,d=addDays(d,1)){const rs=HRS(d);if(!rs)continue;for(const h of rs)for(let m=h[0];m+SLOT<=h[1];m+=SLOT)if(!tk.some(a=>a.d==d&&a.t==hm(m)))return{d,t:hm(m)}}return{d:from,t:'09:00'}};
+const nextAp=id=>{const a=appts().find(x=>x.pid==id);return a?`<p class="fu">下次复诊：${fuTxt(a)}</p>`:''};
+const upcHTML=()=>{const u=appts().filter(a=>a.d>=today()).sort((a,b)=>(a.d+a.t).localeCompare(b.d+b.t)).slice(0,8);return u.length?`<div class="card"><b>近期复诊预约</b>${u.map(a=>`<button class="row" data-act="open" data-id="${a.pid}"><span><b>${esc(a.name)}</b></span><small>${fuTxt(a)}</small></button>`).join('')}</div>`:''};
+const vformHTML=()=>{const x=S.vid&&V.find(z=>z.id==S.vid)||{};return `<div class="card noprint" id="vf"><h2 style="font-size:20px;margin-bottom:12px">病例表${S.vid?' <small class="mut">（编辑中）</small>':''}</h2>
+ ${F('日期','date',x.date||today(),0,'type="date"')}${Sel('类型','type',['初诊','复诊','其他'],x.type||(vs(S.id).length?'复诊':'初诊'))}
+ <div id="secs">${K.filter(k=>x[k[0]]).map(k=>sec(k[0],x[k[0]])).join('')}</div><label>添加项目（舌诊、主诉、备注等）<select id="addsec"></select></label>
+ <label>照片（可拍照或选多张，数量不限）<input type="file" id="pf" accept="image/*" multiple></label><div class="ph" id="ph"></div>
+ <div class="acts"><button class="p" data-act="savev">保存</button>${S.vid?'<button data-act="cancelv">取消编辑</button>':''}</div></div>`};
+function draw(){
+ const p=P.find(x=>x.id===S.id);
+ if(S.v=='list')A.innerHTML=`<div class="top"><h1>病历册</h1><button class="p" data-act="new">新增病人</button></div>
+  ${upcHTML()}<input class="q" id="s" type="search" placeholder="搜索姓名、电话、出生年份、病历内容" value="${esc(S.q)}"><div id="res">${rows()}</div>
+  <div class="card" style="margin-top:26px"><p class="mut" style="margin-top:0">资料只保存在这台设备的这个浏览器里，不会自动同步到别的设备。请定期导出备份；换手机或电脑时导入备份即可。</p>
+  <div class="acts"><button data-act="exp">导出备份</button><button data-act="imp">导入备份</button><input type="file" id="imf" accept=".json,application/json" hidden></div></div>`;
+ else if(S.v=='pform'){const x=S.id&&p||{};A.innerHTML=`<div class="top"><h2>${S.id?'编辑病人':'新增病人'}</h2></div><div class="card">
+  ${F('姓名 *','name',x.name)}${Sel('性别','gender',['女','男'],x.gender)}${F('出生年份或日期（如 1970 或 1970-05-12）','birth',x.birth,0,'inputmode="numeric"')}${F('职业','occ',x.occ)}
+  ${F('电话','phone',x.phone,0,'type="tel"')}${F('身份证 / IC','ic',x.ic)}${F('地址','addr',x.addr)}${F('备注（过敏、病史等）','memo',x.memo,1)}
+  <div class="acts"><button class="p" data-act="savep">保存</button><button data-act="cancel">取消</button></div></div>`}
+ else if(p){const v=vs(p.id);A.innerHTML=`<div class="top"><button data-act="back">返回</button></div>
+  <div class="card"><h2>${esc(p.name)}</h2><dl class="kv" style="margin-top:10px">${PF.filter(f=>p[f[0]]).map(f=>`<dt>${f[1]}</dt><dd>${esc(p[f[0]])}</dd>`).join('')}</dl>${nextAp(p.id)}
+  <div class="acts"><button data-act="edit">编辑资料</button><button data-act="print">打印 / 存成 PDF</button><button class="d" data-act="delp">删除病人</button></div></div>
+  ${vformHTML()}
+  <h2 id="hist" style="font-size:18px;margin:20px 0 12px">就诊记录（新到旧）</h2>
+  ${v.length?`<div class="tl">${v.map(z=>`<div class="card v"><b>${z.date}</b><span class="tag ${z.type=='初诊'?'c':''}">${esc(z.type)}</span>
+   <dl class="kv" style="margin-top:8px">${K.filter(k=>z[k[0]]).map(k=>`<dt>${k[1]}</dt><dd>${esc(z[k[0]])}</dd>`).join('')}</dl>
+   ${z.fu?`<p class="fu">复诊预约：${fuTxt(z.fu)}</p>`:''}
+   ${(z.ph||[]).length?`<div class="ph">${z.ph.map((_,i)=>`<div><img data-act="zoom" data-id="${z.id}" data-i="${i}" src="${z.ph[i]}" alt="照片 ${i+1}"></div>`).join('')}</div>`:''}
+   <div class="acts"><button data-act="editv" data-id="${z.id}">编辑</button><button class="d" data-act="delv" data-id="${z.id}">删除</button></div></div>`).join('')}</div>`:'<p class="mut">保存上面的病例表后，记录会出现在这里。</p>'}`;phs();rebuild();chipSync()}
+ else go('list');
+}
+const phs=()=>{$('#ph').innerHTML=S.ph.map((s,i)=>`<div><img data-act="zoomn" data-i="${i}" src="${s}" alt="照片 ${i+1}"><button data-act="rmph" data-i="${i}" aria-label="移除照片">×</button></div>`).join('')};
+const CH={
+wang:[['舌质',['舌淡白','舌淡红','舌红','舌绛','舌紫暗','舌尖红']],['舌形',['胖大','瘦薄','齿痕','裂纹','瘀斑','点刺']],['舌苔',['苔薄白','苔白','苔白腻','苔黄','苔黄腻','苔厚','少苔','无苔','剥苔']],['津液',['润','干']]],
+pulse:[['脉象',['浮','沉','迟','数','弦','滑','细','濡','涩','紧','缓','弱','虚','实','洪','结代']]],
+appetite:[['食欲',['正常','差','不欲食','偏旺','食后胀满','恶心']],['口感',['口干','口苦','口淡','口黏']]],
+sweat:[['出汗',['正常','自汗','盗汗','无汗','多汗','手足汗','头汗']]],
+cold:[['寒热',['不怕冷','怕冷','畏寒','怕风','手脚冷','背冷','腹冷','怕热','寒热往来']]],
+stool:[['性状',['正常','干结','偏干','偏稀','溏','腹泻','黏腻','排不尽']],['次数',['每日1次','每日2次以上','2-3日1次','3日以上1次']]],
+urine:[['小便',['正常','频','急','量少','量多','色黄','色清','夜尿多','涩痛','余沥']]],
+sleep:[['睡眠',['正常','难入睡','易醒','早醒','多梦','失眠','嗜睡','睡不深']]],
+menses:[['周期',['规律','提前','推迟','先后不定','闭经','已绝经']],['经量',['正常','量多','量少','淋漓不尽']],['经色',['鲜红','淡红','暗红','紫暗','有血块']],['经质',['清稀','黏稠']],['伴随',['痛经','经前乳胀','经前烦躁','腰酸','白带多']]],
+bloat:[['腹胀',['无胀气','腹胀','胃脘胀','食后加重','嗳气','矢气多','肠鸣']]]};
+const sec=(k,v='')=>`<div class="sec" data-k="${k}"><div class="lb"><span>${K.find(z=>z[0]==k)[1]}</span><button type="button" data-act="rmsec" data-k="${k}">移除</button></div>${CH[k]?`<div class="chips">${CH[k].map(g=>`<div><small>${g[0]}</small>${g[1].map(t=>`<button type="button" class="chip" data-act="chip" data-k="${k}" data-t="${t}">${t}</button>`).join('')}</div>`).join('')}</div>`:''}<textarea name="${k}" rows="3">${esc(v)}</textarea></div>`;
+const rebuild=()=>{$('#addsec').innerHTML='<option value="">＋ 选择要填写的项目</option>'+K.filter(k=>!A.querySelector('[name="'+k[0]+'"]')).map(k=>`<option value="${k[0]}">${k[1]}</option>`).join('')};
+const parts=k=>($('[name="'+k+'"]')?.value||'').split(/[，,、\s]+/).filter(Boolean);
+const chipSync=()=>A.querySelectorAll('.sec').forEach(x=>{const p=parts(x.dataset.k);x.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',p.includes(c.dataset.t)))});
+const shrink=f=>new Promise(res=>{const r=new FileReader;r.onload=()=>{const i=new Image;i.onload=()=>{const k=Math.min(1,1400/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.72))};i.onerror=()=>res(null);i.src=r.result};r.onerror=()=>res(null);r.readAsDataURL(f)});
+const sure=(t,l)=>{if(t.dataset.s)return true;t.dataset.s=1;const o=t.textContent;t.textContent=l;setTimeout(()=>{delete t.dataset.s;t.textContent=o},3000);return false};
+const zoom=src=>{const o=document.createElement('div');o.id='ov';o.innerHTML=`<img src="${src}" alt="大图">`;o.onclick=()=>o.remove();document.body.append(o)};
+
+A.onclick=async e=>{const t=e.target.closest('[data-act]');if(!t)return;const a=t.dataset.act,d=t.dataset;
+ if(a=='new')go('pform',{id:null});
+ else if(a=='open')go('patient',{id:d.id,vid:null,ph:[]});
+ else if(a=='back')go('list');
+ else if(a=='edit')go('pform',{id:S.id});
+ else if(a=='cancel')S.v=='vform'?go('patient',{id:S.pid}):go(S.id?'patient':'list');
+ else if(a=='cancelv')go('patient',{id:S.id,vid:null,ph:[]});
+ else if(a=='editv'){const v=V.find(x=>x.id==d.id);go('patient',{id:v.pid,vid:v.id,ph:[...(v.ph||[])]});$('#vf').scrollIntoView()}
+ else if(a=='savep'){const f=get();if(!f.name.trim())return toast('请填写姓名');const p={...(S.id?P.find(x=>x.id===S.id):{id:uid()}),...f,name:f.name.trim()};await put('patients',p);await load();go('patient',{id:p.id,vid:null,ph:[]})}
+ else if(a=='savev'){const f=get(),o=S.vid&&V.find(x=>x.id==S.vid),date=f.date||today(),fu=o&&o.fu&&o.date==date?o.fu:nextSlot(addDays(date,7),S.id);await put('visits',{...(o||{id:uid(),ts:Date.now()}),...f,date,pid:S.id,ph:S.ph,fu});await load();go('patient',{id:S.id,vid:null,ph:[]});$('#hist').scrollIntoView();toast('已保存。复诊预约：'+fuTxt(fu),6000)}
+ else if(a=='delp'){if(!sure(t,'再点一次确认删除'))return;for(const v of vs(S.id))await del('visits',v.id);await del('patients',S.id);await load();go('list',{id:null})}
+ else if(a=='delv'){if(!sure(t,'再点一次确认'))return;await del('visits',d.id);await load();draw()}
+ else if(a=='rmph'){S.ph.splice(+d.i,1);phs()}
+ else if(a=='zoom')zoom(V.find(x=>x.id==d.id).ph[+d.i]);
+ else if(a=='zoomn')zoom(S.ph[+d.i]);
+ else if(a=='exp'){try{const blob=new Blob([JSON.stringify({v:1,patients:P,visits:V})],{type:'application/json'}),fn='病历备份-'+today()+'.json',dl=window.claude?await claude.use('downloads'):null;if(dl)await dl.save({filename:fn,data:blob});else{const l=document.createElement('a');l.href=URL.createObjectURL(blob);l.download=fn;document.body.append(l);l.click();l.remove();toast('备份已下载')}}catch(x){if(!x||x.code!='declined')toast('导出失败')}}
+ else if(a=='imp')$('#imf').click();
+ else if(a=='k')pinfn(d.k);
+ else if(a=='print')print();
+ else if(a=='rmsec'){A.querySelector('.sec[data-k="'+d.k+'"]').remove();rebuild()}
+ else if(a=='chip'){const ta=$('[name="'+d.k+'"]'),p=parts(d.k),i=p.indexOf(d.t);i<0?p.push(d.t):p.splice(i,1);ta.value=p.join('，');chipSync()}
+};
+A.oninput=e=>{if(e.target.id=='s'){S.q=e.target.value;$('#res').innerHTML=rows()}else if(CH[e.target.name])chipSync()};
+A.onchange=async e=>{
+ if(e.target.id=='pf'){toast('处理照片中…');for(const f of e.target.files){const s=await shrink(f);if(s)S.ph.push(s)}e.target.value='';phs()}
+ else if(e.target.id=='addsec'){const v=e.target.value;if(!v)return;$('#secs').insertAdjacentHTML('beforeend',sec(v));rebuild();chipSync();$('[name="'+v+'"]').focus()}
+ else if(e.target.id=='imf'){try{const j=JSON.parse(await e.target.files[0].text());for(const p of j.patients||[])await put('patients',p);for(const v of j.visits||[])await put('visits',v);await load();draw();toast('已导入 '+(j.patients||[]).length+' 位病人')}catch(x){toast('备份文件无法读取')}}
+};
+var locked=true,pinfn;
+function lock(){
+ const h=ls.get('pin');let cur='',first=null;
+ const pad=()=>{A.innerHTML=`<div class="lock"><h1>病历册</h1><p class="mut">${first!==null?'再输入一次确认':h?'输入 4 位密码':'第一次使用，设置 4 位密码'}</p><div class="dots">${[0,1,2,3].map(i=>`<i class="${i<cur.length?'on':''}"></i>`).join('')}</div><div class="pad">${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>k===''?'<span></span>':`<button data-act="k" data-k="${k}">${k}</button>`).join('')}</div></div>`};
+ pinfn=async k=>{if(!locked)return;if(k=='⌫')cur=cur.slice(0,-1);else if(cur.length<4)cur+=k;pad();
+  if(cur.length<4)return;const x=await hash(cur);
+  if(h){if(x==h)return start();toast('密码不对');cur='';pad()}
+  else if(first===null){first=x;cur='';pad()}
+  else if(first==x){ls.set('pin',x);start()}
+  else{toast('两次不一样，请重新设置');first=null;cur='';pad()}};
+ document.addEventListener('keydown',e=>{if(!locked)return;if(/^\d$/.test(e.key))pinfn(e.key);else if(e.key=='Backspace')pinfn('⌫')});
+ pad();
+}
+async function start(){locked=false;try{db=await open();await load();draw()}catch(e){A.innerHTML='<div class="card"><b>无法使用本机存储</b><p class="mut">请换用 Safari 或 Chrome 的普通（非无痕）窗口打开。</p></div>'}}
+lock();
+</script></body></html>
